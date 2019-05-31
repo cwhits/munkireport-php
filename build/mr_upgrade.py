@@ -117,11 +117,18 @@ def github_release_info():
 def main(info, no_backup, backup_dir, install_path, upgrade, upgrade_version):
     """Main script"""
     munkireport = MunkiReportInstall(install_path)
-    build_version = munkireport.build_version
     install_path = install_path or munkireport.install_path
     install_type = munkireport.install_type
-
+    build_version = munkireport.build_version
     release_info = github_release_info()
+
+    if not build_version:
+        print(
+                'The directory, {}, does not appear'
+                ' to be a valid MunkiReport install'
+                ).format(install_path)
+        return
+
     if info:
         print("Current version: {}").format(build_version)
         print("GitHub version:  {}").format(release_info['tag_name'].strip('v'))
